@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+:root{
+  font-size: 16px;
+  box-sizing: border-box;
+}
+@media(max-width: 780px){
+  .modal-content{
+    width: 100%;
+  }
+}
+a{
+  text-decoration: none;
+}
+.modal-container{
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.modal-content{
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 20px;
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.create-account-text{
+  font-family: Poppins;
+  font-weight: bold;
+  font-size: 156.25%;
+  margin: 0  0;
+}
+.full-name-text,
+.email-text,
+.password-text{
+  color: rgba(0, 0, 0, 0.5);
+  font-family: Inter;
+  font-size: 93.75%;
+  font-weight: 600  ;
+}
+.name-input,
+.email-input,
+.password-input{
+  padding: 10px;
+  border-radius: 7px;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+.terms-container{
+  display: flex;
+}
+.terms-checkbox{
+  border-color: rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+}
+.terms-and-condition{
+  margin-left: 10px;
+  font-family: Nunito;
+  font-size: 75%;
+}
+.terms,
+.privacy{
+  color: #FF47BA;
+  cursor: pointer;
+}
+.terms:hover{
+  color: rgba(255, 71, 186, 0.5)
+}
+.privacy:hover{
+  color: rgba(255, 71, 186, 0.5)
+}
+.signup-button {
+  background: linear-gradient(to right, #FF47BA, #5FC9E7);
+  background-size: 200%; /*addition */
+  background-position: left; /* addition */
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  transition: background-position .6s ease;
+  cursor: pointer;
+  font-family: Poppins;
+}
+.signup-button:hover {
+  background-position: right;
+}
+.signup-button:active{
+  background-size: 100%;
+    transition: background-size 0.5s ease;
+}
+.or-text{
+  color: rgba(0, 0, 0, 0.2);
+  font-family: Inter;
+  font-size: 93.75%;
+  text-align: center;
+  justify-self: center;
+  margin: 10px  0;
+}
+.google-signup{
+  box-sizing: border-box;
+  background-color: white;
+  width: 100%;
+  height:40px;
+  padding: 0 16x;
+  border-width: 0.1px;
+  border-radius: 20px;
+  border-color: rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+  display: flex;          
+  align-items: center;  
+  justify-content: center;  
+  gap: 10px; 
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.google-signup:hover{
+  box-shadow: 0 0 10px rgba(0, 0, 0,0.5);
+}
+.google-signup:active{
+  box-shadow: 0 0 10px rgba(0, 0, 0,0.2);
+}
+.google-sign-text{
+  text-align: center;
+}
+.google-icon{
+  width: 27px;
+  height: 27px;
+  margin: 0;
+  padding: 0 0;
+}
+.have-account{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: Nunito;
+  font-size: 12px;
+}
+.login{
+  color: #5FC9E7;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+.login:hover{
+  color: rgba(95, 202, 231,0.7);
+}
