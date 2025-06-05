@@ -1,4 +1,9 @@
-  <section class="firstSec">
+<?php
+  $PageTitle = 'Landing';
+  include 'header.php';
+?>
+
+<section class="firstSec">
     <section class="hero">
       <div class="hero-content">
         <h1>
@@ -71,3 +76,7 @@
       <img src="images/amd.png" alt="AMD" />
     </div>
   </section>
+
+<?php
+  require 'footer.php';
+?>  
