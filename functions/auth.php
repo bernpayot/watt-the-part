@@ -1,5 +1,5 @@
 <?php
-require_once 'dbconn.php';
+require_once __DIR__ . '/../dbconn.php';
 session_start();
 
 class Auth {

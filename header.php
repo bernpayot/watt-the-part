@@ -14,25 +14,65 @@
 </head>
 <body>
   <header class="navbar">
-  <div class="logo"><img src="images/logo pink no bg.png" alt="Logo" class="logo-img" />
-  <span>WATT THE PART?</span></div>
-  
-  <div class="navbar-right">
+    <div class="logo"><img src="images/logo pink no bg.png" alt="Logo" class="logo-img" />
+    <span>WATT THE PART?</span></div>
+    
+    <div class="navbar-right">
+      <nav class="desktop-nav">
+        <ul class="nav-links">
+          <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>" href="index.php">Home</a></li>
+          <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="about.php">About</a></li>
+          <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'list.php' ? 'active' : ''; ?>" href="list.php">Parts</a></li>
+          <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'build.php' ? 'active' : ''; ?>" href="build.php">Build</a></li>
+        </ul>
+      </nav>
+      
+      <div class="nav-btns">
+        <?php if ($auth->isLoggedIn()): ?>
+          <div class="welcome-container">
+            <div class="welcome-message">Welcome, <?php echo htmlspecialchars($auth->getCurrentUser()['username']); ?>!</div>
+            <div class="desktop-menu">
+              <button class="desktop-hamburger">
+                <img src="assets/menu.svg" alt="Menu" />
+              </button>
+              <?php if ($auth->isLoggedIn()): ?>              
+                <div class="desktop-dropdown">
+                  <form action="logout.php" method="post">
+                    <button type="submit" name="logout" class="logout-btn">Logout</button>
+                  </form>
+                </div>                  
+              <?php endif; ?>
+            </div>
+          </div>
+        <?php else: ?>
+          <button class="login">Log In</button>
+          <button class="signup">Sign Up</button>
+        <?php endif; ?>
+      </div>
+
+      <button class="hamburger-menu">
+        <img src="assets/menu.svg" alt="Menu" />
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav">
     <nav>
-      <ul class="nav-links">
-        <li><a class="active" href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Parts</a></li>
-        <li><a href="#">Build</a></li>
+      <ul class="mobile-nav-links">
+        <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>" href="index.php">Home</a></li>
+        <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="about.php">About</a></li>
+        <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'list.php' ? 'active' : ''; ?>" href="list.php">Parts</a></li>
+        <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'build.php' ? 'active' : ''; ?>" href="build.php">Build</a></li>
+        <?php if ($auth->isLoggedIn()): ?>
+          <li>
+            <form action="logout.php" method="post">
+              <button type="submit" name="logout" class="logout-btn">Logout</button>
+            </form>
+          </li>
+        <?php endif; ?>
       </ul>
     </nav>
-    
-    <div class="nav-btns">
-      <button class="login">Log In</button>
-      <button class="signup">Sign Up</button>
-    </div>
   </div>
-  </header>
 
   <div class="modal-container login-modal">
     <div class="modal-content">
@@ -54,6 +94,20 @@
       <p class="no-account">Don't have an account? <span class="sign-up">Sign up</span></p>
     </div>
   </div> 
+<?php
+  if (isset($_POST["login-btn"])) {
+    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
+    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
+
+    $result = $auth->login($email, $password);
+    alert($result['message']);
+    
+    if ($result['success']) {
+        header("Location:list.php");
+        exit();
+    }
+  }  
+?>
   <div class="modal-container signup-modal">
     <div class="modal-content">    
       <button id="close-modal">✖</button>
@@ -77,25 +131,6 @@
     </div>
   </div> 
 <?php
-  function alert($msg) {
-      echo "<script type='text/javascript'>alert('$msg');</script>";
-  }
-
-  /*Login */
-  if (isset($_POST["login-btn"])) {
-    $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
-    $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-
-    $result = $auth->login($email, $password);
-    alert($result['message']);
-    
-    if ($result['success']) {
-        header("Location: index.php");
-        exit();
-    }
-  }  
-
-  /*Signup */
   if (isset($_POST["signup-btn"])) {
     $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
@@ -105,10 +140,13 @@
     alert($result['message']);
     
     if ($result['success']) {
-        header("Location: index.php");
+        header("Location:index.php");
         exit();
     }
   }
+
+  function alert($msg) {
+      echo "<script type='text/javascript'>alert('$msg');</script>";
+  }
 ?>
   
-
