@@ -159,11 +159,6 @@
       <div class="popup-image" id="popup-image"></div>
       <div class="popup-info">
         <h3 id="popup-title">Item Name</h3>
-        <ul id="popup-specs">
-          <li>Spec 1</li>
-          <li>Spec 2</li>
-          <li>Spec 3</li>
-        </ul>
         <div class="popup-bottom">
           <p class="popup-price" id="popup-price">₱0</p>
           <button class="add-btn" onclick="selectComponent()">Add to Build</button>
@@ -205,7 +200,7 @@
     function selectComponent() {
       if (selectedComponent) {
         // Send component data via AJAX
-        fetch('add_component.php', {
+        fetch('functions/builder.php?action=add', {  // Updated path
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

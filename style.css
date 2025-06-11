@@ -1531,6 +1531,7 @@ a {
   background-color: var(--pink);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  padding: 20px;
 }
 
 #check-out {

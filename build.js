@@ -23,7 +23,7 @@ function updateBuildUI(buildData, total) {
     });
 
     // Update total price
-    const totalElements = document.querySelectorAll('.build-footer p:last-child, .subtotal-container p:last-child');
+    const totalElements = document.querySelectorAll('.build-footer p:last-child, .subtotal-container #total-price');
     totalElements.forEach(element => {
         element.textContent = '₱' + total.toLocaleString();
     });
@@ -31,7 +31,7 @@ function updateBuildUI(buildData, total) {
 
 // Function to fetch and update build data
 function fetchAndUpdateBuild() {
-    fetch('get_build_data.php')
+    fetch('builder/get_build_data.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -56,7 +56,7 @@ function removeComponent(componentType) {
     }
 
     // Make AJAX call to remove component
-    fetch('remove_component.php', {
+    fetch('functions/builder.php?action=remove', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -112,7 +112,7 @@ function clearAllComponents() {
     console.log('Clear all button clicked');
     if (confirm('Are you sure you want to clear all components?')) {
         console.log('User confirmed clear all');
-        fetch('clear_all.php', {
+        fetch('functions/builder.php?action=clear', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

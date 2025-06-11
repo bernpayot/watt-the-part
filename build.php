@@ -177,7 +177,7 @@
       <div class="right-container">
         <div class="subtotal-container">
           <div class="text-container"><p id="subtotal-text">SUBTOTAL</p></div>
-          <p><?php echo '₱' . number_format($total, 2); ?></p>
+          <p id="total-price"><?php echo '₱' . number_format($total, 2); ?></p>
         </div>
         <button id="check-out">Check Out</button>
       </div>
@@ -190,8 +190,8 @@
     <h1>Recommended Builds For You</h1>
     <p>Explore battle-tested builds curated by our experts. Choose one, customize it, or build it as-is for<br>maximum performance and peace of mind.</p>
     <div class="recommended-builds">
-      <div><img src="./drawables/gamingpc.webp" alt=""></div>
-      <div><img src="./drawables/3.webp" alt=""></div>
+      <div><img src="images/Parts/ak400.png" alt=""></div>
+      <div><img src="images/Parts/gigabyte_4060ti.png" alt=""></div>
     </div>
   </section>
 </body>

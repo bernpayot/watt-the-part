@@ -165,20 +165,4 @@ function clearAllComponents() {
   }
 }
 
-// Add click handler for clear all button
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, looking for clear all button...');
-  const clearAllButton = document.getElementById('clear-all-btn');
-  console.log('Clear all button found:', clearAllButton);
-  
-  if (clearAllButton) {
-    clearAllButton.addEventListener('click', function(e) {
-      console.log('Clear all button clicked!');
-      e.preventDefault();
-      clearAllComponents();
-    });
-  } else {
-    console.error('Clear all button not found!');
-  }
-});
 
