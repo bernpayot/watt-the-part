@@ -1,3 +1,16 @@
+<?php
+  $PageTitle = "Build";
+  require 'header.php';
+  require_once 'functions/builder.php';
+
+  // Calculate total price
+  $total = 0;
+  $build_data = getBuildData();
+  foreach ($build_data as $component) {
+    $total += $component['price'];
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +18,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PC Building</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <script defer src="build.js"></script>
+  <!-- Remove or comment out the main.js script if it exists -->
+  <!-- <script defer src="main.js"></script> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
@@ -28,26 +43,24 @@
         <div id="build-header">
           <ul>
             <li>Components</li><li>Products</li><li>Details</li><li>Price</li>
-            <li><button>Clear All</button></li>
+            <li><button id="clear-all-btn">Clear All</button></li>
           </ul>
         </div>
 
         <!-- ==== CPU row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=cpu"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=cpu"><button class="add-button"><span class="add-text">+</span></button></a>
             <p class="components-name">CPU</p>
-            <div class="component-details" id="cpu-details">
+            <div class="component-details" id="cpu-details" <?php echo (isset($build_data['cpu'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['cpu']) ? $build_data['cpu']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['cpu']) ? '₱' . number_format($build_data['cpu']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
               <div class="action-icons">
-                <i class="fas fa-edit edit-icon edit-icon"></i>
                 <i class="fas fa-trash-alt delete-icon"></i>
               </div>
             </div>
@@ -57,19 +70,17 @@
         <!-- ==== Motherboard row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=motherboard"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=motherboard"><button class="add-button"><span class="add-text">+</span></button></a>
             <p>Motherboard</p>
-            <div class="component-details" id="motherboard-details">
+            <div class="component-details" id="motherboard-details" <?php echo (isset($build_data['motherboard'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['motherboard']) ? $build_data['motherboard']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['motherboard']) ? '₱' . number_format($build_data['motherboard']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
               <div class="action-icons">
-                <i class="fas fa-edit edit-icon"></i>
                 <i class="fas fa-trash-alt delete-icon"></i>
               </div>
             </div>
@@ -79,19 +90,17 @@
         <!-- ==== RAM row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=ram"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=ram"><button class="add-button"><span class="add-text">+</span></button></a>
             <p>RAM</p>
-            <div class="component-details" id="ram-details">
+            <div class="component-details" id="ram-details" <?php echo (isset($build_data['ram'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['ram']) ? $build_data['ram']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['ram']) ? '₱' . number_format($build_data['ram']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
               <div class="action-icons">
-                <i class="fas fa-edit edit-icon"></i>
                 <i class="fas fa-trash-alt delete-icon"></i>
               </div>
             </div>
@@ -101,19 +110,17 @@
         <!-- ==== Storage row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=storage"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=storage"><button class="add-button"><span class="add-text">+</span></button></a>
             <p>Storage</p>
-            <div class="component-details" id="storage-details">
+            <div class="component-details" id="storage-details" <?php echo (isset($build_data['storage'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['storage']) ? $build_data['storage']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['storage']) ? '₱' . number_format($build_data['storage']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
               <div class="action-icons">
-                <i class="fas fa-edit edit-icon"></i>
                 <i class="fas fa-trash-alt delete-icon"></i>
               </div>
             </div>
@@ -123,19 +130,17 @@
         <!-- ==== Power Supply row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=psu"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=psu"><button class="add-button"><span class="add-text">+</span></button></a>
             <p>Power Supply</p>
-            <div class="component-details" id="psu-details">
+            <div class="component-details" id="psu-details" <?php echo (isset($build_data['psu'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['psu']) ? $build_data['psu']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['psu']) ? '₱' . number_format($build_data['psu']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
               <div class="action-icons">
-                <i class="fas fa-edit edit-icon"></i>
                 <i class="fas fa-trash-alt delete-icon"></i>
               </div>
             </div>
@@ -145,37 +150,36 @@
         <!-- ==== Case row ==== -->
         <div class="component-container">
           <div class="components">
-            <a href="dummy.html?component=case"><button class="add-button"><span class="add-text">+</span></button></a>
+            <a href="list.php?type=case"><button class="add-button"><span class="add-text">+</span></button></a>
             <p>Case</p>
-            <div class="component-details" id="case-details">
+            <div class="component-details" id="case-details" <?php echo (isset($build_data['case'])) ? 'style="display: flex;"' : ''; ?>>
               <div class="product-image"></div>
               <div class="product-info">
                 <ul>
-                  <li id="no-decoration">Product Name</li>
-                  <li>Details</li><li>Details</li><li>Details</li>
+                  <li id="no-decoration"><?php echo isset($build_data['case']) ? $build_data['case']['name'] : 'Product Name'; ?></li>
                 </ul>
-                <p class="price">₱8,500.00</p>
+                <p class="price"><?php echo isset($build_data['case']) ? '₱' . number_format($build_data['case']['price'], 2) : '₱8,500.00'; ?></p>
               </div>
-
-                <div class="action-icons">
-                  <i class="fas fa-edit edit-icon"></i>
-                  <i class="fas fa-trash-alt delete-icon"></i>
-                </div>
+              <div class="action-icons">
+                <i class="fas fa-trash-alt delete-icon"></i>
+              </div>
             </div>
-            
           </div>
         </div>
 
-        <div class="build-footer"><p>SUBTOTAL</p><p>00.00</p></div>
+        <div class="build-footer">
+          <p>SUBTOTAL</p>
+          <p><?php echo '₱' . number_format($total, 2); ?></p>
+        </div>
       </div>
 
-      <!-- right pane … -->
+      <!-- right pane -->
       <div class="right-container">
         <div class="subtotal-container">
           <div class="text-container"><p id="subtotal-text">SUBTOTAL</p></div>
-          <p>00.00</p>
+          <p><?php echo '₱' . number_format($total, 2); ?></p>
         </div>
-        <a href="checkoutModal.html"><button id="check-out">Check Out</button></a>
+        <button id="check-out">Check Out</button>
       </div>
     </div>
   </section>
@@ -192,3 +196,7 @@
   </section>
 </body>
 </html>
+
+<?php
+  require 'footer.php';
+?>
