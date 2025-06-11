@@ -168,8 +168,8 @@
         </div>
 
         <div class="build-footer">
-          <p>SUBTOTAL</p>
-          <p><?php echo '₱' . number_format($total, 2); ?></p>
+          <p style="color: var(--bg-dark);">SUBTOTAL</p>
+          <p style="color: var(--bg-dark);"><?php echo '₱' . number_format($total, 2); ?></p>
         </div>
       </div>
 

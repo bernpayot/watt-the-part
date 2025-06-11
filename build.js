@@ -145,6 +145,22 @@ function clearAllComponents() {
     }
 }
 
+// Function to show checkout modal
+function showCheckoutModal() {
+    const modal = document.querySelector('.checkout-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+// Function to hide checkout modal
+function hideCheckoutModal() {
+    const modal = document.querySelector('.checkout-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
 // Add event listeners when the document is loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
@@ -168,6 +184,42 @@ document.addEventListener('DOMContentLoaded', function() {
         clearAllButton.addEventListener('click', function(e) {
             e.preventDefault();
             clearAllComponents();
+        });
+    }
+
+    // Add click handler for checkout button
+    const checkoutButton = document.getElementById('check-out');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            showCheckoutModal();
+        });
+    }
+
+    // Add click handlers for checkout modal
+    const closeCheckoutModal = document.getElementById('close-checkout-modal');
+    const cancelCheckout = document.querySelector('.checkout-modal .cancel');
+    const continueCheckout = document.querySelector('.checkout-modal .continue-button:first-child');
+
+    if (closeCheckoutModal) {
+        closeCheckoutModal.addEventListener('click', function() {
+            hideCheckoutModal();
+        });
+    }
+
+    if (cancelCheckout) {
+        console.log('Cancel button found:', cancelCheckout); // Debug log
+        cancelCheckout.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent any default behavior
+            console.log('Cancel button clicked'); // Debug log
+            hideCheckoutModal();
+        });
+    }
+
+    if (continueCheckout) {
+        continueCheckout.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'checkout.php';
         });
     }
 }); 

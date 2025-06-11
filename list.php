@@ -105,9 +105,9 @@
 <body>
   <section class="hero">
     <div class="hero-text">
-      <h1>Select Your <?php echo ucfirst($component_type); ?></h1>
+      <h1>Select Your <?php echo $component_type ? ucfirst($component_type) : 'Parts'; ?></h1>
       <p>
-        Browse through our curated collection of <?php echo $component_type; ?> components. 
+        Browse through our curated collection of components. 
         Click any item to view specs and add it to your build.
       </p>
     </div>

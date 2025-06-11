@@ -80,15 +80,17 @@
   }
 ?>
 
-<div class="modal-overlay" style="display: none;">
-  <div class="modal-container">
+<div class="modal-container checkout-modal" style="display: none;">
+  <div class="modal-content">
     <button id="close-checkout-modal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">✖</button>
     <p class="header-text">Proceed to Checkout?</p>
     <p class="description-text">
       You're about to review your build and choose a<br>payment method.<br>
     </p>
-    <a href="index.html"><button class="continue-button">Continue</button></a>
-    <button class="continue-button" style="background: #ccc;">Cancel</button>
+    <div class="button-container">
+      <button class="continue-button" onclick="window.location.href='checkout.php'">Continue</button>
+      <button class="continue-button cancel" style="background: #ccc;">Cancel</button>
+    </div>
   </div>
 </div>
 
