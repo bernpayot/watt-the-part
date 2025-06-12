@@ -5,6 +5,17 @@
   // Get component type from URL
   $component_type = isset($_GET['type']) ? $_GET['type'] : null;
 
+  // Map URL parameter to database type name
+  $type_mapping = [
+    'psu' => 'Power Supply',
+    'cpu' => 'CPU',
+    'gpu' => 'GPU',
+    'ram' => 'RAM',
+    'storage' => 'Storage',
+    'motherboard' => 'Motherboard',
+    'case' => 'Case'
+  ];
+
   // Modify query to filter by component type if specified
   $query = "SELECT c.*, cb.brand_name, ct.type_name 
             FROM components c 
@@ -12,7 +23,8 @@
             JOIN component_type ct ON c.ctype_id = ct.ctype_id";
   
   if ($component_type) {
-    $query .= " WHERE ct.type_name = '" . mysqli_real_escape_string($conn, $component_type) . "'";
+    $db_type = isset($type_mapping[$component_type]) ? $type_mapping[$component_type] : $component_type;
+    $query .= " WHERE ct.type_name = '" . mysqli_real_escape_string($conn, $db_type) . "'";
   }
   
   $result = mysqli_query($conn, $query);
