@@ -34,8 +34,8 @@
     }
 
     .product-card {
-      background: #fff;
-      border-radius: 8px;
+      background: #262630;
+      border-radius: 10px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
@@ -63,7 +63,9 @@
     .product-details h3 {
       margin: 0 0 1rem 0;
       font-size: 1.1rem;
-      color: #333;
+      color: white;
+      min-height: 3rem;
+      line-height: 1.5rem;
     }
 
     .product-details ul {
@@ -73,15 +75,15 @@
     }
 
     .product-details li {
-      color: #666;
+      color: white;
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
 
     .price {
       font-size: 1.2rem;
-      font-weight: 600;
-      color: #2c5282;
+      font-weight: 800;
+      color: white;
       margin: 0;
     }
 
@@ -103,8 +105,8 @@
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="hero-text">
+  <section class="parts-head">
+    <div class="parts-header">
       <h1>Select Your <?php echo $component_type ? ucfirst($component_type) : 'Parts'; ?></h1>
       <p>
         Browse through our curated collection of components. 
