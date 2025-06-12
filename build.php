@@ -19,8 +19,6 @@
   <title>PC Building</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="build.js"></script>
-  <!-- Remove or comment out the main.js script if it exists -->
-  <!-- <script defer src="main.js"></script> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 
@@ -176,10 +174,12 @@
       <!-- right pane -->
       <div class="right-container">
         <div class="subtotal-container">
-          <div class="text-container"><p id="subtotal-text">SUBTOTAL</p></div>
+          <div class="text-container">
+            <h1>SUBTOTAL</h1>
+          </div>
           <p id="total-price"><?php echo '₱' . number_format($total, 2); ?></p>
         </div>
-        <button id="check-out">Check Out</button>
+        <button id="check-out" onclick="event.preventDefault(); event.stopPropagation(); handleCheckout();">Check Out</button>
       </div>
     </div>
   </section>
@@ -194,6 +194,121 @@
       <div><img src="images/Parts/gigabyte_4060ti.png" alt=""></div>
     </div>
   </section>
+
+  <!-- Build-specific error modal -->
+  <div class="modal-container build-error-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001;">
+    <div class="modal-content">
+      <button id="close-build-error-modal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">✖</button>
+      <p class="header-text" style="color: #ff4444;">Error</p>
+      <p class="description-text" id="build-error-message">
+        Please add at least one component to your build before checking out.
+      </p>
+      <div class="button-container">
+        <button class="continue-button" onclick="closeBuildErrorModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Override the original showErrorModal function to prevent it from being used
+    window.showErrorModal = function(message) {
+      // Remove any existing modals first
+      const existingOverlay = document.querySelector('.modal-overlay');
+      if (existingOverlay) existingOverlay.remove();
+      
+      const existingCheckoutModal = document.querySelector('.checkout-modal');
+      if (existingCheckoutModal) existingCheckoutModal.style.display = 'none';
+
+      // Create new overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      overlay.style.zIndex = '1000';
+      document.body.appendChild(overlay);
+
+      // Show error modal
+      const errorModal = document.querySelector('.build-error-modal');
+      const errorMessage = document.getElementById('build-error-message');
+      if (message) errorMessage.innerHTML = message;
+      errorModal.style.display = 'flex';
+      errorModal.style.zIndex = '1001';
+
+      // Add click event to overlay to close modal
+      overlay.addEventListener('click', function() {
+        closeBuildErrorModal();
+      });
+
+      // Add click event to close button
+      const closeButton = document.getElementById('close-build-error-modal');
+      if (closeButton) {
+        closeButton.onclick = function() {
+          closeBuildErrorModal();
+        };
+      }
+    };
+
+    function handleCheckout() {
+      // Check for visible component details
+      const visibleComponents = document.querySelectorAll('.component-details[style*="display: flex"]');
+      
+      if (visibleComponents.length === 0) {
+        showErrorModal('Please add at least one component to your build before checking out.');
+        return; // Stop here if no components
+      }
+      
+      // Only show checkout modal if we have components
+      const overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      overlay.style.zIndex = '1000';
+      document.body.appendChild(overlay);
+      
+      const modal = document.querySelector('.checkout-modal');
+      modal.style.display = 'flex';
+      modal.style.zIndex = '1001';
+      
+      // Add click event to overlay to close modal
+      overlay.addEventListener('click', function() {
+        modal.style.display = 'none';
+        overlay.remove();
+      });
+
+      // Add click event to cancel button
+      const cancelButton = modal.querySelector('.cancel');
+      if (cancelButton) {
+        cancelButton.onclick = function() {
+          modal.style.display = 'none';
+          overlay.remove();
+        };
+      }
+
+      // Add click event to close button
+      const closeButton = modal.querySelector('#close-checkout-modal');
+      if (closeButton) {
+        closeButton.onclick = function() {
+          modal.style.display = 'none';
+          overlay.remove();
+        };
+      }
+    }
+
+    function closeBuildErrorModal() {
+      const modal = document.querySelector('.build-error-modal');
+      const overlay = document.querySelector('.modal-overlay');
+      if (modal) modal.style.display = 'none';
+      if (overlay) overlay.remove();
+    }
+  </script>
 </body>
 </html>
 

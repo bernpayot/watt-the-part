@@ -25,10 +25,10 @@
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $result = $auth->login($email, $password);
-    alert($result['message']);
+    echo "<script>alert('" . addslashes($result['message']) . "');</script>";
     
     if ($result['success']) {
-        header("Location: list.php");
+        header("Location: build.php");
         exit();
     }
   }  
@@ -67,16 +67,12 @@
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $result = $auth->register($username, $email, $password);
-    alert($result['message']);
+    echo "<script>alert('" . addslashes($result['message']) . "');</script>";
     
     if ($result['success']) {
         header("Location:index.php");
         exit();
     }
-  }
-
-  function alert($msg) {
-      echo "<script type='text/javascript'>alert('$msg');</script>";
   }
 ?>
 
@@ -94,12 +90,131 @@
   </div>
 </div>
 
+<div class="modal-container thank-you-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001;">
+  <div class="modal-content">
+    <button id="close-thank-you-modal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">✖</button>
+    <p class="header-text">Thank You for Shopping!</p>
+    <p class="description-text">
+      Your order has been received and is being processed.<br>
+      We'll send you an email confirmation shortly.<br>
+      Thank you for choosing Watt The Part!
+    </p>
+    <div class="button-container">
+      <button class="continue-button" onclick="clearBuildAndRedirect('index.php')">Return to Home</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-container error-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001;">
+  <div class="modal-content">
+    <p class="header-text" style="color: #ff4444;">Error</p>
+    <p class="description-text" id="error-message">
+      An error has occurred.<br>
+      Please try again later.
+    </p>
+    <div class="button-container">
+      <button class="continue-button" onclick="closeErrorModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // Close checkout modal when clicking the close button
   const closeCheckoutModal = document.getElementById('close-checkout-modal');
   if (closeCheckoutModal) {
     closeCheckoutModal.addEventListener('click', function() {
-      document.querySelector('.modal-overlay').style.display = 'none';
+      const modal = document.querySelector('.checkout-modal');
+      const overlay = document.querySelector('.modal-overlay');
+      if (modal) modal.style.display = 'none';
+      if (overlay) overlay.remove();
+    });
+  }
+
+  // Close thank you modal when clicking the close button
+  const closeThankYouModal = document.getElementById('close-thank-you-modal');
+  if (closeThankYouModal) {
+    closeThankYouModal.addEventListener('click', function() {
+      clearBuildAndRedirect();
+    });
+  }
+
+  // Close error modal when clicking the close button
+  const closeErrorModalBtn = document.getElementById('close-error-modal');
+  if (closeErrorModalBtn) {
+    closeErrorModalBtn.addEventListener('click', function() {
+      closeErrorModal();
+    });
+  }
+
+  // Function to close error modal
+  function closeErrorModal() {
+    const modal = document.querySelector('.error-modal');
+    const overlay = document.querySelector('.modal-overlay');
+    if (modal) modal.style.display = 'none';
+    if (overlay) overlay.remove();
+  }
+
+  // Function to show error modal
+  function showErrorModal(message) {
+    // Show the modal overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    document.body.appendChild(overlay);
+    
+    // Update error message if provided
+    if (message) {
+      document.getElementById('error-message').innerHTML = message;
+    }
+    
+    // Show the error modal
+    const modal = document.querySelector('.error-modal');
+    modal.style.display = 'flex';
+    
+    // Add click event to overlay to close modal
+    overlay.addEventListener('click', function() {
+      closeErrorModal();
+    });
+  }
+
+  // Function to clear build data and optionally redirect
+  function clearBuildAndRedirect(redirectUrl = null) {
+    // Clear the build data
+    fetch('functions/builder.php?action=clear', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      },
+      credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Hide the modal and overlay
+        const modal = document.querySelector('.thank-you-modal');
+        const overlay = document.querySelector('.modal-overlay');
+        if (modal) modal.style.display = 'none';
+        if (overlay) overlay.remove();
+        
+        // Redirect if URL is provided
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        }
+      } else {
+        showErrorModal('Failed to clear build data: ' + data.message);
+      }
+    })
+    .catch(error => {
+      showErrorModal('An error occurred while clearing build data. Please try again.');
     });
   }
 </script>

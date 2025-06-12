@@ -67,45 +67,6 @@ document.addEventListener('click', function(event) {
   }
 });
 
-// Checkout Modal
-const checkoutButton = document.getElementById('check-out');
-const checkoutModal = document.querySelector('.modal-overlay');
-
-if (checkoutButton) {
-  checkoutButton.addEventListener('click', function() {
-    checkoutModal.style.display = 'flex';
-  });
-}
-
-// Close checkout modal when clicking outside
-document.addEventListener('click', function(event) {
-  if (event.target === checkoutModal) {
-    checkoutModal.style.display = 'none';
-  }
-});
-
-// Function to remove a component from the build
-function removeComponent(type) {
-  // Send AJAX request to remove component
-  fetch('remove_component.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'type=' + type
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      // Hide the component details
-      document.getElementById(type + '-details').style.display = 'none';
-      // Update total price
-      updateTotalPrice();
-    }
-  })
-  .catch(error => console.error('Error:', error));
-}
-
 // Function to update total price
 function updateTotalPrice() {
   fetch('get_total_price.php')

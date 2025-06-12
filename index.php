@@ -12,7 +12,7 @@
         </strong>
         </h1>
         <p>New to PC building? No problem. Our step-by-step builder and curated parts make it easy for anyone to build a powerful, personalized computer.</p>
-        <a href="#" class="btn-gradient">Build your PC <span>&#x276F;</span></a>
+        <a href="#" class="btn-gradient" onclick="handleBuildClick(); return false;">Build your PC <span>&#x276F;</span></a>
       </div>
     </section>
 
@@ -76,6 +76,50 @@
       <img src="images/amd.png" alt="AMD" />
     </div>
   </section>
+
+  <script>
+    function handleBuildClick() {
+      <?php if ($auth->isLoggedIn()): ?>
+        // If user is logged in, redirect to build.php
+        window.location.href = 'build.php';
+      <?php else: ?>
+        // If user is not logged in, show login modal
+        const loginModal = document.querySelector('.login-modal');
+        const signupModal = document.querySelector('.signup-modal');
+        
+        // Hide signup modal if it's visible
+        if (signupModal) {
+          signupModal.style.display = 'none';
+        }
+        
+        // Show login modal
+        if (loginModal) {
+          loginModal.style.display = 'flex';
+          loginModal.style.zIndex = '1001';
+          
+          // Create and add overlay
+          const overlay = document.createElement('div');
+          overlay.className = 'modal-overlay';
+          overlay.style.position = 'fixed';
+          overlay.style.top = '0';
+          overlay.style.left = '0';
+          overlay.style.width = '100%';
+          overlay.style.height = '100%';
+          overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+          overlay.style.zIndex = '1000';
+          document.body.appendChild(overlay);
+          
+          // Add click event to overlay to close modal
+          overlay.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+            overlay.remove();
+          });
+        }
+      <?php endif; ?>
+    }
+  </script>
+</body>
+</html>
 
 <?php
   require 'footer.php';

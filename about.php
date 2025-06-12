@@ -44,7 +44,7 @@
 
       <section class="team-section">
         <h2>Meet The Team</h2>
-        <div class="divider"></div>
+        <div class="about-divider"></div>
         <p class="team-subtext">in the PC industry — so you can build with confidence.</p>
     
         <div class="team-grid">

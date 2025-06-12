@@ -76,7 +76,7 @@ function removeComponent(componentType) {
             }
 
             // Update the total price
-            const totalElements = document.querySelectorAll('.build-footer p:last-child, .subtotal-container p:last-child');
+            const totalElements = document.querySelectorAll('.build-footer p:last-child, .subtotal-container #total-price');
             totalElements.forEach(element => {
                 element.textContent = `₱${parseFloat(data.total).toLocaleString('en-US', {
                     minimumFractionDigits: 2,
@@ -184,15 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
         clearAllButton.addEventListener('click', function(e) {
             e.preventDefault();
             clearAllComponents();
-        });
-    }
-
-    // Add click handler for checkout button
-    const checkoutButton = document.getElementById('check-out');
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            showCheckoutModal();
         });
     }
 
