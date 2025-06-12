@@ -25,11 +25,25 @@
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
     $result = $auth->login($email, $password);
-    echo "<script>alert('" . addslashes($result['message']) . "');</script>";
     
     if ($result['success']) {
-        header("Location: build.php");
+        // Get user data to check role
+        $query = "SELECT role_id FROM users WHERE email = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $user = mysqli_fetch_assoc($result);
+
+        // Redirect based on role
+        if ($user && $user['role_id'] == 1) {
+            header("Location: admin/admin.php");
+        } else {
+            header("Location: build.php");
+        }
         exit();
+    } else {
+        echo "<script>alert('" . addslashes($result['message']) . "');</script>";
     }
   }  
 ?>
@@ -70,7 +84,8 @@
     echo "<script>alert('" . addslashes($result['message']) . "');</script>";
     
     if ($result['success']) {
-        header("Location:index.php");
+        // New users are always registered as regular users (role_id = 2)
+        header("Location: index.php");
         exit();
     }
   }

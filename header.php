@@ -24,19 +24,28 @@
           <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="about.php">About</a></li>
           <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'list.php' ? 'active' : ''; ?>" href="list.php">Parts</a></li>
           <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'build.php' ? 'active' : ''; ?>" href="build.php">Build</a></li>
+          <?php 
+            $currentUser = $auth->isLoggedIn() ? $auth->getCurrentUser() : null;
+            if ($currentUser && isset($currentUser['role_id']) && $currentUser['role_id'] == 1): 
+          ?>
+            <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'admin/admin.php' ? 'active' : ''; ?>" href="admin/admin.php">Admin</a></li>
+          <?php endif; ?>
         </ul>
       </nav>
       
       <div class="nav-btns">
         <?php if ($auth->isLoggedIn()): ?>
           <div class="welcome-container">
-            <div class="welcome-message">Welcome, <?php echo htmlspecialchars($auth->getCurrentUser()['username']); ?>!</div>
+            <div class="welcome-message">Welcome, <?php echo htmlspecialchars($currentUser['username']); ?>!</div>
             <div class="desktop-menu">
               <button class="desktop-hamburger">
                 <img src="assets/menu.svg" alt="Menu" />
               </button>
               <?php if ($auth->isLoggedIn()): ?>              
                 <div class="desktop-dropdown">
+                  <?php if (isset($currentUser['role_id']) && $currentUser['role_id'] == 1): ?>
+                    <a href="admin/admin.php" class="admin-link">Admin Dashboard</a>
+                  <?php endif; ?>
                   <form action="logout.php" method="post">
                     <button type="submit" name="logout" class="logout-btn">Logout</button>
                   </form>
@@ -63,6 +72,9 @@
         <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="about.php">About</a></li>
         <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'list.php' ? 'active' : ''; ?>" href="list.php">Parts</a></li>
         <li><a class="<?php echo basename($_SERVER['PHP_SELF']) == 'build.php' ? 'active' : ''; ?>" href="build.php">Build</a></li>
+        <?php if ($currentUser && isset($currentUser['role_id']) && $currentUser['role_id'] == 1): ?>
+          <li><a href="admin/admin.php">Admin</a></li>
+        <?php endif; ?>
         <?php if ($auth->isLoggedIn()): ?>
           <li>
             <a href="logout.php">Log out</a>
