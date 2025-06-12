@@ -1386,7 +1386,7 @@ a {
 }
 
 .build-div {
-  background-color: var(--bg-dark);
+  background-color: var(--card-bg);
   width: 70%;
   height: auto;
   border-radius: 20px;
